@@ -22,28 +22,30 @@ function Current(game, { changeScore }, highest) {
 
 function Menu({ handleClick }) {
     return (
-        <div className="navbar" dir="rtl">
-            <button className="button" onClick={(event) => handleClick("plus")}>
-                {" "}
-                a + b{" "}
-            </button>
-            <button className="button" onClick={(event) => handleClick("minus")}>
-                {" "}
-                a - b{" "}
-            </button>
-            <button className="button" onClick={(event) => handleClick("multi")}>
-                {" "}
-                a x b{" "}
-            </button>
-            <button className="button" onClick={(event) => handleClick("divide")}>
-                {" "}
-                a : b{" "}
-            </button>
-            <button className="button" onClick={(event) => handleClick("random")}>
-                {" "}
-                אקראי{" "}
-            </button>
-           
+        <div class="dropdown">
+        <button class="dropbtn"></button>
+            <div className="dropdown-content" dir="rtl">
+                <button className="button" onClick={(event) => handleClick("plus")}>
+                    {" "}
+                    a + b{" "}
+                </button>
+                <button className="button" onClick={(event) => handleClick("minus")}>
+                    {" "}
+                    a - b{" "}
+                </button>
+                <button className="button" onClick={(event) => handleClick("multi")}>
+                    {" "}
+                    a x b{" "}
+                </button>
+                <button className="button" onClick={(event) => handleClick("divide")}>
+                    {" "}
+                    a : b{" "}
+                </button>
+                <button className="button" onClick={(event) => handleClick("random")}>
+                    {" "}
+                    אקראי{" "}
+                </button>
+            </div>
         </div>
     );
 }
@@ -151,6 +153,7 @@ function raiseHighest(score) {
     return score % 10 === 0 && score > 0
 }
 
+
 function App() {
     const [game, setGame] = useState('random');
 
@@ -170,11 +173,10 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1>פתורותי</h1>
+                <Menu handleClick={handleClick} /> 
                 <p> שלב: {(highest / 10)} </p>
                 <p> נקודות: {score} </p>
             </header>
-
-            <Menu handleClick={handleClick} />
             <br /> <br />
             <div className="Game-zone" >
                 {Current(game, { changeScore }, highest)}

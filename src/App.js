@@ -159,7 +159,9 @@ function Divide({ changeScore }, highest) {
 }
 
 function LevelUp(score) {
-    return Math.floor(score / 15) + 1;
+    let level = Math.floor(score / 15) + 1;
+    if (level < 1) { return 1 }
+    return level
 }
 
 function Highest(level) {

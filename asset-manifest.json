@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/SolveItWeb/static/css/main.cd28565d.css",
-    "main.js": "/SolveItWeb/static/js/main.c21e8608.js",
+    "main.js": "/SolveItWeb/static/js/main.944a90b2.js",
     "static/js/787.fbc082c0.chunk.js": "/SolveItWeb/static/js/787.fbc082c0.chunk.js",
     "index.html": "/SolveItWeb/index.html",
     "main.cd28565d.css.map": "/SolveItWeb/static/css/main.cd28565d.css.map",
-    "main.c21e8608.js.map": "/SolveItWeb/static/js/main.c21e8608.js.map",
+    "main.944a90b2.js.map": "/SolveItWeb/static/js/main.944a90b2.js.map",
     "787.fbc082c0.chunk.js.map": "/SolveItWeb/static/js/787.fbc082c0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cd28565d.css",
-    "static/js/main.c21e8608.js"
+    "static/js/main.944a90b2.js"
   ]
 }

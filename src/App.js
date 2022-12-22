@@ -57,58 +57,67 @@ class Exercise extends React.Component {
             answer: ""
         };
     }
+
     handleAnswer = (event) => {
-        this.setState({
-            answer: event.target.value
-        });
+        if (event.charCode === 13) { this.result(event) }
+        else {
+            this.setState({
+                answer: event.target.value
+            });
+        }
     };
 
-    clearAnswerField = () => {
-        this.setState({
-            answer: ""
-        });
+        result = (event) => {
+            (this.props.c === Number(this.state.answer))
+                ? this.TrueAnswer(event)
+                : this.FalseAnswer(event)
+        };
+
+        clearAnswerField = () => {
+            this.setState({
+                answer: ""
+            });
+        };
+
+        TrueAnswer = event => {
+            alert("צדקת!");
+            this.clearAnswerField();
+            this.props.changeScore(1);
+        };
+
+        FalseAnswer = event => {
+            alert("טעות. התשובה הנכונה היא " + this.props.c);
+            this.clearAnswerField();
+            this.props.changeScore(-1);
+        };
+
+        render() {
+            return (
+                <div>
+                    <label>
+                        {" "}
+                        {this.props.a} {this.props.sign} {this.props.b} ={""}
+                    </label>
+                    <input
+                        name="c"
+                        type="number"
+                        value={this.state.answer}
+                        onChange={this.handleAnswer}
+                        onKeyPress={this.handleAnswer}
+
+                    />
+                    <br /> <br />
+                    <button
+                        className="check button"
+                        onClick={this.result}
+                    >
+                        בדיקה
+                    </button>
+                </div>
+            );
+        }
     }
 
-    TrueAnswer = event => {
-        alert("צדקת!");
-        this.clearAnswerField();
-        this.props.changeScore(1);
-    }
-
-    FalseAnswer = event => {
-        alert("טעות. התשובה הנכונה היא " + this.props.c);
-        this.clearAnswerField();
-        this.props.changeScore(-1);
-    }
-
-    render() {
-        return (
-            <div>
-                <label>
-                    {" "}
-                    {this.props.a} {this.props.sign} {this.props.b} ={""}
-                </label>
-                <input
-                    name="c"
-                    type="number"
-                    value={this.state.answer}
-                    onChange={this.handleAnswer}
-                />
-                <br /> <br />
-                <button
-                    className="check button"
-                    onClick={
-                        this.props.c === Number(this.state.answer)
-                            ? this.TrueAnswer
-                            : this.FalseAnswer
-                    }
-                >
-                    בדיקה
-                </button>
-            </div>
-        );
-    }
-}
 
 function Plus({ changeScore }, highest) {
     var a = Math.floor(Math.random() * highest);

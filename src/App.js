@@ -23,7 +23,7 @@ function Current(game, { changeScore }, highest) {
 function Menu({ handleClick }) {
     return (
         <div class="dropdown">
-        <button class="dropbtn"></button>
+        <button class="dropbtn">תרגילים</button>
             <div className="dropdown-content" dir="rtl">
                 <button className="button" onClick={(event) => handleClick("plus")}>
                     {" "}

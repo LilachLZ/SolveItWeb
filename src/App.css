@@ -99,22 +99,23 @@ input {
     border: 1px;
     cursor: pointer;
     offset-position: right;
-    box-shadow: 0 2px #999;
+    color:aliceblue;
 }
 
 .dropdown
 {
-    position:static;
+    position: relative;
     display: inline-block;
-    align-items:center;
-    align-content:center;
+    
 }
 
 .dropdown-content
 {
-    display: none;
     position: absolute;
-    min-width: 3vw;;
+    display: none;
+    min-width: 3vw;
+    align-items: center;
+    align-content: center;
     z-index: 1;
 }
 
@@ -138,6 +139,8 @@ input {
 
 .dropdown:hover .dropbtn
 {
-    background-color: #3e8e41;
+    background-image: none;
+    background-color:rebeccapurple;
+    
 }
 

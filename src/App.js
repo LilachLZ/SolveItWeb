@@ -149,8 +149,12 @@ function Divide({ changeScore }, highest) {
     return <Exercise a={a} b={b} sign={sign} c={c} changeScore={changeScore} />;
 }
 
-function raiseHighest(score) {
-    return score % 10 === 0 && score > 0
+function LevelUp(score) {
+    return Math.floor(score / 15) + 1;
+}
+
+function Highest(level) {
+    return (level * 5) + 5;
 }
 
 
@@ -163,18 +167,21 @@ function App() {
 
     const [score, setScore] = useState(0);
     const [highest, setHighest] = useState(10);
+    const [level, setLevel] = useState(1);
 
     const changeScore = (num) => {
         setScore(current => current + num);
-        if (raiseHighest(score)) { setHighest(highest => highest + 10) };
-    };
+        setHighest(current => Highest(level));
+        setLevel(current => LevelUp(score));
+        };
+    
 
     return (
         <div className="App">
             <header className="App-header">
                 <h1>פתורותי</h1>
-                <Menu handleClick={handleClick} /> 
-                <p> שלב: {(highest / 10)} </p>
+                <Menu handleClick={handleClick} />
+                <p> שלב: {level} </p>
                 <p> נקודות: {score} </p>
             </header>
             <br /> <br />

@@ -177,15 +177,17 @@ function App() {
     };
 
     const storedValueAsNumber = Number(localStorage.getItem('score'));
+    const firstScore = (Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
 
-    const [score, setScore] = useState(Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
-    const [highest, setHighest] = useState(10);
-    const [level, setLevel] = useState(1);
+    const [score, setScore] = useState(firstScore);
+    const [level, setLevel] = useState(LevelUp(score));
+    const [highest, setHighest] = useState(Highest(level));
+
 
     const changeScore = (num) => {
         setScore(current => current + num);
-        setHighest(current => Highest(level));
         setLevel(current => LevelUp(score));
+        setHighest(current => Highest(level));
     };
 
     useEffect(() => {

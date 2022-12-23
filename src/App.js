@@ -1,5 +1,5 @@
 ﻿import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 
 function Current(game, { changeScore }, highest) {
@@ -23,25 +23,25 @@ function Current(game, { changeScore }, highest) {
 function Menu({ handleClick }) {
     return (
         <div class="dropdown">
-        <button class="dropbtn">תרגילים</button>
+        <button class="dropbtn"></button>
             <div className="dropdown-content" dir="rtl">
-                <button className="button" onClick={(event) => handleClick("plus")}>
+                <button className="menu-button" onClick={(event) => handleClick("plus")}>
                     {" "}
                     a + b{" "}
                 </button>
-                <button className="button" onClick={(event) => handleClick("minus")}>
+                <button className="menu-button" onClick={(event) => handleClick("minus")}>
                     {" "}
                     a - b{" "}
                 </button>
-                <button className="button" onClick={(event) => handleClick("multi")}>
+                <button className="menu-button" onClick={(event) => handleClick("multi")}>
                     {" "}
                     a x b{" "}
                 </button>
-                <button className="button" onClick={(event) => handleClick("divide")}>
+                <button className="menu-button" onClick={(event) => handleClick("divide")}>
                     {" "}
                     a : b{" "}
                 </button>
-                <button className="button" onClick={(event) => handleClick("random")}>
+                <button className="menu-button" onClick={(event) => handleClick("random")}>
                     {" "}
                     אקראי{" "}
                 </button>
@@ -96,7 +96,7 @@ class Exercise extends React.Component {
                 <div>
                     <label>
                         {" "}
-                        {this.props.a} {this.props.sign} {this.props.b} ={""}
+                        {this.props.a} {this.props.sign} {this.props.b} = {""}
                     </label>
                     <input
                         name="c"
@@ -176,7 +176,9 @@ function App() {
         setGame(current => name);
     };
 
-    const [score, setScore] = useState(0);
+    const storedValueAsNumber = Number(localStorage.getItem('score'));
+
+    const [score, setScore] = useState(Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
     const [highest, setHighest] = useState(10);
     const [level, setLevel] = useState(1);
 
@@ -184,8 +186,11 @@ function App() {
         setScore(current => current + num);
         setHighest(current => Highest(level));
         setLevel(current => LevelUp(score));
-        };
-    
+    };
+
+    useEffect(() => {
+        localStorage.setItem('score', String(score));
+    }, [score]);
 
     return (
         <div className="App">
@@ -195,7 +200,6 @@ function App() {
                 <p> שלב: {level} </p>
                 <p> נקודות: {score} </p>
             </header>
-            <br /> <br />
             <div className="Game-zone" >
                 {Current(game, { changeScore }, highest)}
             </div>
@@ -213,7 +217,6 @@ export default App;
 /* TODO: 
 
 # make the hole thing preetier;
-# add enterkey to check
 # yes/no popup
 # save score
 #make the input bigger

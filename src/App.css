@@ -1,19 +1,25 @@
 .App {
     text-align: center;
     font-family: sans-serif;
+    font-size:4vw;
 }
 
 
-body {
+body
+{
     background-color: aliceblue;
-    
 }
 
-.App-header {
-  flex-direction: column;
-  align-items: center;
-  font-size: 3vw;;
-  color: black;
+.App-header
+{
+    flex-direction: column;
+    align-items: center;
+    color: #DF790B;
+}
+
+.user-data {
+    font-size:3vw;
+    align-content:center;
 }
 
 .App-link {
@@ -21,30 +27,31 @@ body {
 }
 
 .Game-zone {
-    position: inherit;
-    font-size: 3vw;
+    border:groove;
+    padding: 5%;
+    margin:10%;
+    font-size:4vw;
+    
 }
 
 input {
-    font-size: 3vw;
     width: 10vw;
+    height:4vw;
 }
 
 .button
 {
     margin:1%;
     display: inline-block;
-    padding: 15px 25px;
-    font-size: 24px;
+    padding: 10px 15px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     outline: none;
     color: #fff;
-    background-color:coral;
-    border: none;
-    border-radius: 15px;
+    border-radius:15px;
     box-shadow: 0 9px #999;
+    font-size:3vw;
 }
 
 .button:active
@@ -54,9 +61,27 @@ input {
     transform: translateY(4px);
 }
 
-.check {
-    background-color:brown;
+.start-over
+{
+    background-color: red;
+    font-size: 2vw;
 }
+
+.start-over:hover {
+    background-color:crimson;
+}
+
+.check {
+    background-color:orange;
+    color:black;
+    border:dashed;
+}
+
+    .check:hover
+    {
+        background-color: #DF790B;
+        color:aliceblue;
+    }
 
 /*
 .popup-content
@@ -98,50 +123,46 @@ input {
     height: 50px;
     border: 1px;
     cursor: pointer;
-    offset-position: right;
-    color:aliceblue;
 }
 
 .dropdown
 {
-    position: relative;
     display: inline-block;
     
 }
 
 .dropdown-content
 {
-    position: absolute;
     display: none;
-    min-width: 3vw;
-    align-items: center;
-    align-content: center;
     z-index: 1;
+    position: absolute;
 }
 
-.dropdown-content button
-{
-    color: black;
-    background-color:blueviolet;
-    border:groove;
-    font-size:3vw;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+    .dropdown-content button
+    {
+        color: black;
+        background: conic-gradient(white purple);
+        border: groove;
+        padding: 12px 16px;
+        display: block;
+        font-size: 3vw;
+        border-radius: 15px;
+    }
 
-.dropdown-content button:hover
-{
-    background-color: #f1f1f1
-}
+        .dropdown-content button:hover
+        {
+            background-color: #DF790B;
+            color: azure;
+        }
 
 .dropdown:hover .dropdown-content
 {
-    display: block;
+    display:inline-block;
 }
 
 .dropdown:hover .dropbtn
 {
     opacity:70%;
 }
+
 

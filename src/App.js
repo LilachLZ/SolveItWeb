@@ -1,5 +1,6 @@
-﻿import "./App.css";
-import React, { useState, useEffect } from "react";
+﻿//
+import './App.css';
+import React, { useState, useEffect } from 'react';
 
 
 function Current(game, { changeScore }, highest) {
@@ -20,31 +21,32 @@ function Current(game, { changeScore }, highest) {
     }
 }
 
-function Menu({ handleClick }) {
+function Menu({ handleClick, resetScore }) {
     return (
         <div class="dropdown">
-        <button class="dropbtn"></button>
-            <div className="dropdown-content" dir="rtl">
-                <button className="menu-button" onClick={(event) => handleClick("plus")}>
-                    {" "}
-                    a + b{" "}
-                </button>
-                <button className="menu-button" onClick={(event) => handleClick("minus")}>
-                    {" "}
-                    a - b{" "}
-                </button>
-                <button className="menu-button" onClick={(event) => handleClick("multi")}>
-                    {" "}
-                    a x b{" "}
-                </button>
-                <button className="menu-button" onClick={(event) => handleClick("divide")}>
-                    {" "}
-                    a : b{" "}
-                </button>
-                <button className="menu-button" onClick={(event) => handleClick("random")}>
-                    {" "}
-                    אקראי{" "}
-                </button>
+            <button class="dropbtn"></button>
+                <div className="dropdown-content" dir="rtl">
+                    <button className="menu-button" onClick={(event) => handleClick("plus")}>
+                        {" "}
+                        a + b{" "}
+                    </button>
+                    <button className="menu-button" onClick={(event) => handleClick("minus")}>
+                        {" "}
+                        a - b{" "}
+                    </button>
+                    <button className="menu-button" onClick={(event) => handleClick("multi")}>
+                        {" "}
+                        a x b{" "}
+                    </button>
+                    <button className="menu-button" onClick={(event) => handleClick("divide")}>
+                        {" "}
+                        a : b{" "}
+                    </button>
+                    <button className="menu-button" onClick={(event) => handleClick("random")}>
+                        {" "}
+                        אקראי{" "}
+                    </button>
+                    <button className="start-over" onClick={resetScore} >התחלה מחדש</button>
             </div>
         </div>
     );
@@ -169,12 +171,11 @@ function Highest(level) {
 }
 
 
+
 function App() {
     const [game, setGame] = useState('random');
 
-    const handleClick = (name) => {
-        setGame(current => name);
-    };
+    const handleClick = (name) => {setGame(current => name);};
 
     const storedValueAsNumber = Number(localStorage.getItem('score'));
     const firstScore = (Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
@@ -182,7 +183,6 @@ function App() {
     const [score, setScore] = useState(firstScore);
     const [level, setLevel] = useState(LevelUp(score));
     const [highest, setHighest] = useState(Highest(level));
-
 
     const changeScore = (num) => {
         setScore(current => current + num);
@@ -194,14 +194,24 @@ function App() {
         localStorage.setItem('score', String(score));
     }, [score]);
 
+    const resetScore = () => {
+        setScore(current => 0);
+        setLevel(current => 1);
+        setHighest(current => 10);
+    };
+
     return (
         <div className="App">
             <header className="App-header">
                 <h1>פתורותי</h1>
-                <Menu handleClick={handleClick} />
+            </header>
+
+            <div className="user-data" >
                 <p> שלב: {level} </p>
                 <p> נקודות: {score} </p>
-            </header>
+                <Menu handleClick={handleClick} resetScore={resetScore} />
+            </div>
+
             <div className="Game-zone" >
                 {Current(game, { changeScore }, highest)}
             </div>
@@ -220,16 +230,11 @@ export default App;
 
 # make the hole thing preetier;
 # yes/no popup
-# save score
-#make the input bigger
 
 demonstration for each game
 
 let images = {
 Ball: './'
-}
-let Count = (highest) => {
-
 }
 
 User-Information = {

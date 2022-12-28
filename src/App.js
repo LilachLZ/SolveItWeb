@@ -1,6 +1,9 @@
 ﻿//
+
 import './App.css';
 import React, { useState, useEffect } from 'react';
+// pop-ups
+import Popup from 'reactjs-popup';
 
 
 function Current(game, { changeScore }, highest) {
@@ -45,8 +48,14 @@ function Menu({ handleClick, resetScore }) {
                     <button className="menu-button" onClick={(event) => handleClick("random")}>
                         {" "}
                         אקראי{" "}
-                    </button>
-                    <button className="start-over" onClick={resetScore} >התחלה מחדש</button>
+                </button>
+                <Popup trigger={<button className="start-over" >התחלה מחדש</button>}>
+                    <div>
+                        <p>בטוח? לחיצה על אישור תחזיר אותך לשלב 1 עם 0 נקודות
+                        </p>
+                        <button onClick={resetScore} >אישור</button>
+                    </div>
+                    </Popup>
             </div>
         </div>
     );
@@ -69,55 +78,55 @@ class Exercise extends React.Component {
         }
     };
 
-        result = (event) => {
-            (this.props.c === Number(this.state.answer))
-                ? this.TrueAnswer(event)
-                : this.FalseAnswer(event)
-        };
+    result = (event) => {
+        (this.props.c === Number(this.state.answer))
+            ? this.TrueAnswer(event)
+            : this.FalseAnswer(event)
+    };
 
-        clearAnswerField = () => {
-            this.setState({
-                answer: ""
-            });
-        };
+    clearAnswerField = () => {
+        this.setState({
+            answer: ""
+        });
+    };
 
-        TrueAnswer = event => {
-            alert("צדקת!");
-            this.clearAnswerField();
-            this.props.changeScore(1);
-        };
+    TrueAnswer = event => {
+        alert('תשובה נכונה');
+        this.clearAnswerField();
+        this.props.changeScore(1);
+     };
 
-        FalseAnswer = event => {
-            alert("טעות. התשובה הנכונה היא " + this.props.c);
-            this.clearAnswerField();
-            this.props.changeScore(-1);
-        };
+    FalseAnswer = event => {
+        alert("טעות. התשובה הנכונה היא " + this.props.c);
+        this.clearAnswerField();
+        this.props.changeScore(-1);
+    };
 
-        render() {
-            return (
-                <div>
-                    <label>
-                        {" "}
-                        {this.props.a} {this.props.sign} {this.props.b} = {""}
-                    </label>
-                    <input
-                        name="c"
-                        type="number"
-                        value={this.state.answer}
-                        onChange={this.handleAnswer}
-                        onKeyPress={this.handleAnswer}
+    render() {
+        return (
+            <div>
+                <label>
+                    {" "}
+                    {this.props.a} {this.props.sign} {this.props.b} = {""}
+                </label>
+                <input
+                    name="c"
+                    type="number"
+                    value={this.state.answer}
+                    onChange={this.handleAnswer}
+                    onKeyPress={this.handleAnswer}
 
-                    />
-                    <br /> <br />
-                    <button
-                        className="check button"
-                        onClick={this.result}
-                    >
-                        בדיקה
-                    </button>
-                </div>
-            );
-        }
+                />
+                <br /> <br />
+                <button
+                    className="check button"
+                    onClick={this.result}
+                >
+                    בדיקה
+                </button>
+            </div>
+        );
+    }
     }
 
 
@@ -170,7 +179,9 @@ function Highest(level) {
     return (level * 5) + 5;
 }
 
-
+let images = {
+    arrow: '.\public\arow.png'
+};
 
 function App() {
     const [game, setGame] = useState('random');
@@ -209,12 +220,15 @@ function App() {
             <div className="user-data" >
                 <p> שלב: {level} </p>
                 <p> נקודות: {score} </p>
+                
+            </div>
+            <div>
                 <Menu handleClick={handleClick} resetScore={resetScore} />
             </div>
-
             <div className="Game-zone" >
                 {Current(game, { changeScore }, highest)}
             </div>
+            
         </div>
     );
 }

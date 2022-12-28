@@ -37,6 +37,7 @@ body
 input {
     width: 10vw;
     height:4vw;
+    font-size:4vw;
 }
 
 .button
@@ -67,9 +68,13 @@ input {
     font-size: 2vw;
 }
 
-.start-over:hover {
-    background-color:crimson;
+.arow
+{
+    background-image: url('./arow.png');
+    width:20px;
+    height:15px;
 }
+
 
 .check {
     background-color:orange;
@@ -83,7 +88,7 @@ input {
         color:aliceblue;
     }
 
-/*
+
 .popup-content
 {
     margin: auto;
@@ -112,7 +117,6 @@ input {
 {
     background: transparent;
 }
-*/
 
 
 .dropbtn
@@ -127,8 +131,8 @@ input {
 
 .dropdown
 {
-    display: inline-block;
-    
+    display:inline-table;
+    position:relative;
 }
 
 .dropdown-content
@@ -151,13 +155,14 @@ input {
 
         .dropdown-content button:hover
         {
-            background-color: #DF790B;
+            background-color:chocolate;
             color: azure;
         }
 
+
 .dropdown:hover .dropdown-content
 {
-    display:inline-block;
+    display: inline-block;
 }
 
 .dropdown:hover .dropbtn

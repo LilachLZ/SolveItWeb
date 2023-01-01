@@ -213,22 +213,14 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <h1>פתורותי</h1>
-            </header>
-
             <div className="user-data" >
                 <p> שלב: {level} </p>
                 <p> נקודות: {score} </p>
-                
             </div>
-            <div>
-                <Menu handleClick={handleClick} resetScore={resetScore} />
-            </div>
+            <Menu handleClick={handleClick} resetScore={resetScore} />
             <div className="Game-zone" >
                 {Current(game, { changeScore }, highest)}
             </div>
-            
         </div>
     );
 }

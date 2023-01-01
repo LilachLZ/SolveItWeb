@@ -1,48 +1,49 @@
-.App {
-    text-align: center;
-    font-family: sans-serif;
-    font-size:4vw;
-}
 
-
-body
-{
-    background-color: aliceblue;
-}
 
 .App-header
 {
+    text-align:center;
     flex-direction: column;
     align-items: center;
     color: #DF790B;
 }
 
-.user-data {
-    font-size:3vw;
-    align-content:center;
+.App
+{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 30px;
+    width: 100%;
+
 }
 
-.App-link {
-  color: #61dafb;
+.user-data
+    {
+        align-content: center;
+    }
+
+.App-link
+{
+    color: #61dafb;
 }
 
-.Game-zone {
-    border:groove;
-    padding: 5%;
-    margin:10%;
-    font-size:4vw;
-    
+.Game-zone
+{
+    padding: 2%;
+    margin: 1%;
+    font-size: 5vw;
 }
 
-input {
+input
+{
     width: 10vw;
-    height:4vw;
-    font-size:4vw;
+    height: 4vw;
+    font-size: 4vw;
 }
 
 .button
 {
-    margin:1%;
+    margin: 1%;
     display: inline-block;
     padding: 10px 15px;
     cursor: pointer;
@@ -50,17 +51,17 @@ input {
     text-decoration: none;
     outline: none;
     color: #fff;
-    border-radius:15px;
+    border-radius: 15px;
     box-shadow: 0 9px #999;
-    font-size:3vw;
+    font-size: 3vw;
 }
 
-.button:active
-{
-    background-color:chocolate;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-}
+    .button:active
+    {
+        background-color: chocolate;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
 
 .start-over
 {
@@ -71,21 +72,22 @@ input {
 .arow
 {
     background-image: url('./arow.png');
-    width:20px;
-    height:15px;
+    width: 20px;
+    height: 15px;
 }
 
 
-.check {
-    background-color:orange;
-    color:black;
-    border:dashed;
+.check
+{
+    background-color: orange;
+    color: black;
+    border: dashed;
 }
 
     .check:hover
     {
         background-color: #DF790B;
-        color:aliceblue;
+        color: aliceblue;
     }
 
 
@@ -125,14 +127,14 @@ input {
     background-position: center;
     width: 53px;
     height: 50px;
-    border: 1px;
+    border: 3px;
     cursor: pointer;
 }
 
 .dropdown
 {
-    display:inline-table;
-    position:relative;
+    display: inline-table;
+    position: relative;
 }
 
 .dropdown-content
@@ -155,7 +157,7 @@ input {
 
         .dropdown-content button:hover
         {
-            background-color:chocolate;
+            background-color: chocolate;
             color: azure;
         }
 
@@ -167,7 +169,7 @@ input {
 
 .dropdown:hover .dropbtn
 {
-    opacity:70%;
+    opacity: 70%;
 }
 
 

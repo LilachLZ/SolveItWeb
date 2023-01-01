@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@media only screen and (min-width: 600px)
+{
+    /* For desktop: */
+    .App-header
+    {
+        font-size: 3vw;
+        text-align: center;
+    }
+
+}

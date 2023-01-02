@@ -1,9 +1,10 @@
 ﻿//
 
 import './App.css';
+import FalsePopup from './Components/popUps';
 import React, { useState, useEffect } from 'react';
-// pop-ups
 import Popup from 'reactjs-popup';
+
 
 
 function Current(game, { changeScore }, highest) {
@@ -23,6 +24,7 @@ function Current(game, { changeScore }, highest) {
         return null;
     }
 }
+
 
 function Menu({ handleClick, resetScore }) {
     return (
@@ -77,28 +79,25 @@ class Exercise extends React.Component {
             });
         }
     };
-
     result = (event) => {
         (this.props.c === Number(this.state.answer))
-            ? this.TrueAnswer(event)
-            : this.FalseAnswer(event)
+        ? this.TrueAnswer(event)
+        : this.FalseAnswer(event)
     };
 
-    clearAnswerField = () => {
+    resetAnswerField = (response) => {
         this.setState({
-            answer: ""
+            answer: response
         });
     };
 
     TrueAnswer = event => {
-        alert('תשובה נכונה');
-        this.clearAnswerField();
+        this.resetAnswerField('');
         this.props.changeScore(1);
      };
 
     FalseAnswer = event => {
-        alert("טעות. התשובה הנכונה היא " + this.props.c);
-        this.clearAnswerField();
+        this.resetAnswerField('');
         this.props.changeScore(-1);
     };
 
@@ -124,6 +123,7 @@ class Exercise extends React.Component {
                 >
                     בדיקה
                 </button>
+
             </div>
         );
     }
@@ -179,10 +179,6 @@ function Highest(level) {
     return (level * 5) + 5;
 }
 
-let images = {
-    arrow: '.\public\arow.png'
-};
-
 function App() {
     const [game, setGame] = useState('random');
 
@@ -210,6 +206,7 @@ function App() {
         setLevel(current => 1);
         setHighest(current => 10);
     };
+
 
     return (
         <div className="App">

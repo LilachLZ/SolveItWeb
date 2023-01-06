@@ -163,12 +163,18 @@ function Divide(highest, { handleResult }) {
 }
 
 const TrueAnswer = ({ changeScore }) => {
-    Swal.fire('תשובה נכונה!');
+    Swal.fire({
+        title: 'תשובה נכונה!',
+        icon: 'success'
+        });
     changeScore(1);
 };
 
 const FalseAnswer = (true_answer, { changeScore }) => {
-    Swal.fire('טעות! התשובה הנכונה היא ' + true_answer)
+    Swal.fire({
+        title: 'טעות! התשובה הנכונה היא ' + true_answer,
+        icon: 'error'
+    })
     changeScore(-1);
 };
 
@@ -183,7 +189,6 @@ function Highest(level) {
 }
 
 
-
 function App() {
     const [game, setGame] = useState('random');
 
@@ -194,6 +199,7 @@ function App() {
             TrueAnswer({ changeScore })
             : FalseAnswer(answer,{ changeScore })
     };
+
     const storedValueAsNumber = Number(localStorage.getItem('score'));
     const firstScore = (Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
 
@@ -237,15 +243,8 @@ function App() {
 export default App;
 
 
-/* TODO: 
-
-# make the hole thing preetier;
-*/
 
 /* TODO: 
-
-# make the hole thing preetier;
-# yes/no popup
 
 demonstration for each game
 

@@ -1,25 +1,27 @@
 ﻿//
 
 import './App.css';
-import FalsePopup from './Components/popUps';
 import React, { useState, useEffect } from 'react';
 import Popup from 'reactjs-popup';
+import Swal from 'sweetalert2'
 
 
 
-function Current(game, { changeScore }, highest) {
-    const games = [Plus, Minus, Multiple, Divide];
 
-    if (game === "plus") {
-        return games[0]({ changeScore }, highest);
-    } else if (game === "minus") {
-        return games[1]({ changeScore }, highest);
-    } else if (game === "multi") {
-        return games[2]({ changeScore }, highest);
-    } else if (game === "divide") {
-        return games[3]({ changeScore }, highest);
+function Current(game, highest, { handleResult }) {
+    const games = {
+        "plus": Plus,
+        "minus": Minus,
+        "multi": Multiple,
+        "divide": Divide,
+    };
+
+    if (game in games) {
+        return games[game](highest, { handleResult });
     } else if (game === 'random') {
-        return games[Math.floor(Math.random() * games.length)]({ changeScore }, highest);
+        let list_games = ['plus', 'minus', 'multi', 'divide'];
+        let random_item = list_games[Math.floor(Math.random() * list_games.length)];
+        return games[random_item](highest, { handleResult });
     } else {
         return null;
     }
@@ -67,22 +69,22 @@ class Exercise extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            answer: ""
+            answer: "",
         };
     }
 
     handleAnswer = (event) => {
-        if (event.charCode === 13) { this.result(event) }
+        if (event.charCode === 13) { this.result() }
         else {
             this.setState({
                 answer: event.target.value
             });
         }
     };
-    result = (event) => {
-        (this.props.c === Number(this.state.answer))
-        ? this.TrueAnswer(event)
-        : this.FalseAnswer(event)
+
+    result = () => {
+        this.props.handleResult(this.props.c === Number(this.state.answer), this.props.c)
+        this.resetAnswerField('');
     };
 
     resetAnswerField = (response) => {
@@ -91,15 +93,6 @@ class Exercise extends React.Component {
         });
     };
 
-    TrueAnswer = event => {
-        this.resetAnswerField('');
-        this.props.changeScore(1);
-     };
-
-    FalseAnswer = event => {
-        this.resetAnswerField('');
-        this.props.changeScore(-1);
-    };
 
     render() {
         return (
@@ -114,60 +107,70 @@ class Exercise extends React.Component {
                     value={this.state.answer}
                     onChange={this.handleAnswer}
                     onKeyPress={this.handleAnswer}
-
                 />
-                <br /> <br />
+                <br /> 
+                <br />
                 <button
                     className="check button"
                     onClick={this.result}
                 >
                     בדיקה
                 </button>
-
+                
             </div>
         );
     }
     }
 
 
-function Plus({ changeScore }, highest) {
+function Plus(highest, { handleResult }) {
     var a = Math.floor(Math.random() * highest);
     var b = Math.floor(Math.random() * highest);
     var sign = "+";
     var c = a + b;
 
-    return <Exercise a={a} b={b} sign={sign} c={c} changeScore={changeScore} />;
+    return <Exercise a={a} b={b} sign={sign} c={c} handleResult={handleResult} />;
 }
 
 
-function Minus({ changeScore }, highest) {
+function Minus(highest, { handleResult }) {
     var a = Math.floor(Math.random() * highest);
     var b = Math.floor(Math.random() * a);
     var c = a - b;
     var sign = "-";
 
-    return <Exercise a={a} b={b} sign={sign} c={c} changeScore={changeScore} />;
+    return <Exercise a={a} b={b} sign={sign} c={c} handleResult={handleResult} />;
 }
 
-function Multiple({ changeScore }, highest) {
+function Multiple(highest, { handleResult }) {
     var a = Math.floor(Math.random() * highest);
     var b = Math.floor(Math.random() * highest);
     var sign = "X";
     var c = a * b;
 
-    return <Exercise a={a} b={b} sign={sign} c={c} changeScore={changeScore} />;
+    return <Exercise a={a} b={b} sign={sign} c={c} handleResult={handleResult} />;
 }
 
 
-function Divide({ changeScore }, highest) {
+function Divide(highest, { handleResult }) {
     var a = Math.floor(Math.random() * highest) + 1;
     let range_a = [...Array(a).keys()].map(i => i + 1);
     let b_list = range_a.filter(i => (a % i === 0));
     var b = b_list[Math.floor(Math.random() * b_list.length)];
     var sign = "/";
     var c = a / b;
-    return <Exercise a={a} b={b} sign={sign} c={c} changeScore={changeScore} />;
+    return <Exercise a={a} b={b} sign={sign} c={c} handleResult={handleResult} />;
 }
+
+const TrueAnswer = ({ changeScore }) => {
+    Swal.fire('תשובה נכונה!');
+    changeScore(1);
+};
+
+const FalseAnswer = (true_answer, { changeScore }) => {
+    Swal.fire('טעות! התשובה הנכונה היא ' + true_answer)
+    changeScore(-1);
+};
 
 function LevelUp(score) {
     let level = Math.floor(score / 15) + 1;
@@ -179,11 +182,18 @@ function Highest(level) {
     return (level * 5) + 5;
 }
 
+
+
 function App() {
     const [game, setGame] = useState('random');
 
-    const handleClick = (name) => {setGame(current => name);};
+    const handleClick = (name) => { setGame(current => name); };
 
+    const handleResult = (result, answer) => {
+        result ?
+            TrueAnswer({ changeScore })
+            : FalseAnswer(answer,{ changeScore })
+    };
     const storedValueAsNumber = Number(localStorage.getItem('score'));
     const firstScore = (Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
 
@@ -216,8 +226,11 @@ function App() {
             </div>
             <Menu handleClick={handleClick} resetScore={resetScore} />
             <div className="Game-zone" >
-                {Current(game, { changeScore }, highest)}
+                {Current(game, highest, { handleResult })}
+                <br />
+
             </div>
+            
         </div>
     );
 }

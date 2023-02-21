@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import Popup from 'reactjs-popup';
+import { evaluate } from 'mathjs';
 
 
 function Solver(exercise) {
@@ -13,9 +14,6 @@ function Solver(exercise) {
     let fixed_list = [];
     for (let n of exercise) {
         switch (n) {
-            case (Number.isInteger(n)):
-                fixed_list.push(String(n));
-                break;
             case (n === '+'):
                 fixed_list.push(n);
                 break;
@@ -26,12 +24,12 @@ function Solver(exercise) {
                 fixed_list.push(signs_dict.keys[n]);
                 break;
             default:
-                break;
+                fixed_list.push(String(n));
         }
 
     }
 
-    let answer = eval(fixed_list.join(' '));
+    let answer = evaluate(fixed_list.join(''));
     return answer;
 }
 
@@ -54,7 +52,7 @@ class Exercise extends React.Component {
     };
 
     result = () => {
-        this.props.handleResult(this.props.c === Number(this.state.answer), this.props.c);
+        this.props.handleResult(Solver(this.props.exercise) === Number(this.state.answer), Solver(this.props.exercise));
         this.resetAnswerField('');
     };
 
@@ -76,6 +74,7 @@ class Exercise extends React.Component {
                     type="number"
                     value={this.state.answer}
                     onKeyPress={this.handleAnswer}
+                    onChange={this.handleAnswer}
                 />
                 <br />
                 <br />
@@ -92,31 +91,64 @@ class Exercise extends React.Component {
 }
 
 
-function GenerateExercise2(word_sign, highest, { handleResult }) {
+function Plus(highest, { handleResult }) {
     var a = Math.floor(Math.random() * highest);
     var b = Math.floor(Math.random() * highest);
-    let signs = {
-        'plus': "+",
-        'minus': "-",
-        'multi': "X",
-        'divide': ":"
-    };
-
-    let random_sign = Math.floor(Math.random() * signs.length);
-    let sign = '';
-    switch (word_sign) {
-        case (word_sign in signs):
-            sign = signs.keys[word_sign];
-            break;
-        default:
-            sign = signs.keys[random_sign];
-            break;
-    }
+    let sign = '+';
     var exercise = [a, sign, b];
 
-    var c = new Solver(exercise);
+    return <Exercise exercise={exercise} handleResult={handleResult} />;
+}
 
-    return <Exercise exercise={exercise} c={c} handleResult={handleResult} />
+
+function Minus(highest, { handleResult }) {
+    var a = Math.floor(Math.random() * highest);
+    var b = Math.floor(Math.random() * a);
+    var sign = "-";
+    let exercise = [a, sign, b]
+
+    return <Exercise exercise={exercise} handleResult={handleResult} />;
+}
+
+
+function Multiple(highest, { handleResult }) {
+    var a = Math.floor(Math.random() * highest);
+    var b = Math.floor(Math.random() * highest);
+    var sign = "X";
+    let exercise = [a, sign, b]
+
+    return <Exercise exercise={exercise} handleResult={handleResult} />;
+}
+
+
+function Divide(highest, { handleResult }) {
+    var a = Math.floor(Math.random() * highest) + 1;
+    let range_a = [...Array(a).keys()].map(i => i + 1);
+    let b_list = range_a.filter(i => (a % i === 0));
+    var b = b_list[Math.floor(Math.random() * b_list.length)];
+    var sign = ":";
+    let exercise = [a, sign, b]
+
+    return <Exercise exercise={exercise} handleResult={handleResult} />;
+}
+
+
+function Current(game, highest, { handleResult }) {
+    const games = {
+        "plus": Plus,
+        "minus": Minus,
+        "multi": Multiple,
+        "divide": Divide,
+    };
+    
+    if (game in games) { return games[game](highest, { handleResult }) }
+    else if (game === 'random') {
+        let keys = Object.keys(games);
+        const ran = Math.floor(Math.random() * keys.length);
+        return games[keys[ran]](highest, { handleResult })
+    }
+    else { return null }
+    ;
 }
 
 
@@ -145,7 +177,6 @@ function Menu({ handleClick, resetScore }) {
                         {" "}
                         אקראי{" "}
                 </button>
-                <button className="menu-button" onClick={(event) => handleClick('n_numbers')}> a + b + c </button>
                 <Popup trigger={<button className="start-over" >התחלה מחדש</button>}>
                     <div>
                         <p>בטוח? לחיצה על אישור תחזיר אותך לשלב 1 עם 0 נקודות
@@ -228,8 +259,7 @@ function App() {
             </div>
             <Menu handleClick={handleClick} resetScore={resetScore} />
             <div className="Game-zone" >
-                9
-                {GenerateExercise2(game, highest, { handleResult })}
+                {Current(game, highest, { handleResult })}
 
             </div>            
         </div>

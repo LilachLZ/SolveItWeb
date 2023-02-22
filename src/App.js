@@ -52,7 +52,7 @@ class Exercise extends React.Component {
     };
 
     result = () => {
-        this.props.handleResult(Solver(this.props.exercise) === Number(this.state.answer), Solver(this.props.exercise));
+        this.props.handleResult(Solver(this.props.exercise) === Number(this.state.answer), (Solver(this.props.exercise)));
         this.resetAnswerField('');
     };
 
@@ -155,35 +155,29 @@ function Current(game, highest, { handleResult }) {
 function Menu({ handleClick, resetScore }) {
     return (
         <div class="dropdown">
-            <button class="dropbtn"></button>
+            <button class="dropbtn">תפריט</button>
                 <div className="dropdown-content" dir="rtl">
-                    <button className="menu-button" onClick={(event) => handleClick("plus")}>
+                    <button onClick={(event) => handleClick("plus")}>
                         {" "}
                         a + b{" "}
                     </button>
-                    <button className="menu-button" onClick={(event) => handleClick("minus")}>
+                    <button onClick={(event) => handleClick("minus")}>
                         {" "}
                         a - b{" "}
                     </button>
-                    <button className="menu-button" onClick={(event) => handleClick("multi")}>
+                    <button onClick={(event) => handleClick("multi")}>
                         {" "}
                         a x b{" "}
                     </button>
-                    <button className="menu-button" onClick={(event) => handleClick("divide")}>
+                    <button onClick={(event) => handleClick("divide")}>
                         {" "}
                         a : b{" "}
                     </button>
-                    <button className="menu-button" onClick={(event) => handleClick("random")}>
+                    <button onClick={(event) => handleClick("random")}>
                         {" "}
                         אקראי{" "}
                 </button>
-                <Popup trigger={<button className="start-over" >התחלה מחדש</button>}>
-                    <div>
-                        <p>בטוח? לחיצה על אישור תחזיר אותך לשלב 1 עם 0 נקודות
-                        </p>
-                        <button onClick={resetScore} >אישור</button>
-                    </div>
-                    </Popup>
+                
             </div>
         </div>
     );
@@ -193,7 +187,8 @@ function Menu({ handleClick, resetScore }) {
 const TrueAnswer = ({ changeScore }) => {
     Swal.fire({
         title: 'תשובה נכונה!',
-        icon: 'success'
+        icon: 'success',
+        confirmButtonText: 'תודה'
         });
     changeScore(1);
 };
@@ -201,7 +196,8 @@ const TrueAnswer = ({ changeScore }) => {
 const FalseAnswer = (true_answer, { changeScore }) => {
     Swal.fire({
         title: 'טעות! התשובה הנכונה היא ' + true_answer,
-        icon: 'error'
+        icon: 'error',
+        confirmButtonText: 'המשך'
     })
     changeScore(-1);
 };
@@ -215,12 +211,27 @@ function LevelUp(score) {
 function Highest(level) {
     return (level * 5) + 5;
 }
+   
+
+function UserInfo({ changeUser }) {
+    const { value: username } = Swal.fire({
+        input: 'text',
+        inputLabel: 'שם',
+        inputPlaceholder: 'שם או כינוי',
+        confirmButtonText: 'התחלה'
+    });
+    if (username) {
+        changeUser(username);
+    }
+}
 
 
 function App() {
     const [game, setGame] = useState('random');
-
+  
     const handleClick = (name) => { setGame(current => name); };
+
+    const [username, setUsername] = useState('');
 
     const handleResult = (result, answer) => {
         result ?
@@ -228,7 +239,8 @@ function App() {
             : FalseAnswer(answer,{ changeScore })
     };
 
-    const storedValueAsNumber = Number(localStorage.getItem('score'));
+    const storedUser = (username) => localStorage.getItem(username);
+    const storedValueAsNumber = Number(storedUser[1]);
     const firstScore = (Number.isInteger(storedValueAsNumber) ? storedValueAsNumber : 0);
 
     const [score, setScore] = useState(firstScore);
@@ -242,22 +254,25 @@ function App() {
     };
 
     useEffect(() => {
-        localStorage.setItem('score', String(score));
-    }, [score]);
+        localStorage.setItem(username, JSON.stringify([username,score]));
+    }, [username,score]);
 
-    const resetScore = () => {
-        setScore(current => 0);
-        setLevel(current => 1);
-        setHighest(current => 10);
+    const changeUser = (username) => {
+        storedUser(username);
+        setScore(current => Number(storedUser[1]));
+        setLevel(current => LevelUp(score));
+        setHighest(current => Highest(level));
     };
 
     return (
         <div className="App">
-            <div className="user-data" >
-                <p> שלב: {level} </p>
-                <p> נקודות: {score} </p>
-            </div>
-            <Menu handleClick={handleClick} resetScore={resetScore} />
+            <ul className="user-data" >
+                <li>{UserInfo({ changeUser })}</li>
+                <li> שלב: {level} </li>
+                <li> נקודות: {score} </li>
+                <Menu handleClick={handleClick} />
+            </ul>
+
             <div className="Game-zone" >
                 {Current(game, highest, { handleResult })}
 
